@@ -32,19 +32,8 @@ jobs:
           sudo apt-get update -qq && sudo apt-get install -y -qq shellcheck
           shellcheck -S warning install.sh sync-from-local.sh scripts/scan-secrets.sh hooks/*.sh
 
-      - name: Verify settings template is valid JSON and secret-free
-        run: |
-          python3 - <<'PY'
-          import json, pathlib, sys
-
-          settings = json.loads(pathlib.Path("settings.template.json").read_text())
-          for key, value in settings.get("env", {}).items():
-              if not (value.startswith("${") and value.endswith("}")):
-                  sys.exit(f"env.{key} must be a ${{PLACEHOLDER}}, got a literal value")
-          if settings.get("permissions", {}).get("additionalDirectories"):
-              sys.exit("permissions.additionalDirectories must be empty in the template")
-          print("settings.template.json ok")
-          PY
+      - name: Verify settings template
+        run: python3 scripts/check-template.py
 
       - name: Dry-run the installer
         run: |

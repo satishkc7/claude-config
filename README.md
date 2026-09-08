@@ -46,11 +46,12 @@ claude-config/
 │   └── known_marketplaces.json  marketplaces to re-add with /plugin
 ├── scripts/
 │   ├── validate.py              frontmatter linter (names, descriptions, dir/name match)
-│   └── scan-secrets.sh          credential scanner over tracked files
+│   ├── scan-secrets.sh          credential scanner over tracked files
+│   └── check-template.py        asserts the settings template stays placeholder-only
 ├── settings.template.json       user settings, secrets and machine paths stripped
 ├── install.sh                   repo  -> ~/.claude
 ├── sync-from-local.sh           ~/.claude -> repo
-└── Makefile                     install | link | sync | check | lint | secrets | stats
+└── Makefile                     install | link | sync | check | lint | template | secrets | stats
 ```
 
 ## Install
@@ -117,7 +118,7 @@ On every other machine: `git pull && make install`. Nothing to do if you install
    directory and carries a description; same check for agents and commands
 2. `scripts/scan-secrets.sh` - 9 credential patterns across all tracked files
 3. `shellcheck -S warning` on the installer, the sync script, and the shell hooks
-4. `settings.template.json` parses as JSON and still has its placeholders
+4. `scripts/check-template.py` - `settings.template.json` parses and still has its placeholders
 5. the installer runs against a throwaway `CLAUDE_HOME` and the result is asserted
 
 ## Requirements
