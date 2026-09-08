@@ -51,7 +51,13 @@ def check_skills() -> int:
         rel = manifest.relative_to(ROOT)
 
         if not manifest.is_file():
-            errors.append(f"{skill.relative_to(ROOT)}: no SKILL.md")
+            # A lowercase skill.md loads on case-insensitive macOS and silently
+            # fails on Linux, so name the real problem instead of "not found".
+            miscased = [p.name for p in skill.iterdir() if p.name.lower() == "skill.md"]
+            if miscased:
+                errors.append(f"{skill.relative_to(ROOT)}: has {miscased[0]}, must be SKILL.md")
+            else:
+                errors.append(f"{skill.relative_to(ROOT)}: no SKILL.md")
             continue
 
         fields = frontmatter(manifest)
