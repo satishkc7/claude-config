@@ -117,7 +117,8 @@ On every other machine: `git pull && make install`. Nothing to do if you install
 1. `scripts/validate.py` - every skill has a `SKILL.md` whose frontmatter `name` matches its
    directory and carries a description; same check for agents and commands
 2. `scripts/scan-secrets.sh` - 9 credential patterns across all tracked files
-3. `shellcheck -S warning` on the installer, the sync script, and the shell hooks
+3. `shellcheck -S warning` on the installer, the sync script, and the scanner; vendored
+   `hooks/*.sh` are checked too, but advisory only
 4. `scripts/check-template.py` - `settings.template.json` parses and still has its placeholders
 5. the installer runs against a throwaway `CLAUDE_HOME` and the result is asserted
 

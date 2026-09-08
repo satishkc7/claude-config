@@ -4,7 +4,7 @@
 # Portable: works on bash 3.2 (stock macOS) as well as bash 5.
 set -uo pipefail
 
-cd "$(dirname "${BASH_SOURCE[0]}")/.."
+cd "$(dirname "${BASH_SOURCE[0]}")/.." || exit 1
 
 LIST="$(mktemp)"
 trap 'rm -f "$LIST"' EXIT

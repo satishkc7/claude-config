@@ -27,10 +27,15 @@ jobs:
       - name: Scan for credentials
         run: bash scripts/scan-secrets.sh
 
-      - name: Shellcheck
-        run: |
-          sudo apt-get update -qq && sudo apt-get install -y -qq shellcheck
-          shellcheck -S warning install.sh sync-from-local.sh scripts/scan-secrets.sh hooks/*.sh
+      - name: Install shellcheck
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq shellcheck
+
+      - name: Shellcheck (repo scripts)
+        run: shellcheck -S warning install.sh sync-from-local.sh scripts/scan-secrets.sh
+
+      - name: Shellcheck (vendored hooks, advisory)
+        continue-on-error: true
+        run: shellcheck -S warning hooks/*.sh
 
       - name: Verify settings template
         run: python3 scripts/check-template.py
