@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 300" width="1200" height="300" role="img" aria-label="claude-config: portable Claude Code environment">
+  <defs>
+    <linearGradient id="rule" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#5fb3ae"/>
+      <stop offset="1" stop-color="#5fb3ae" stop-opacity="0.08"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1200" height="300" fill="#141413"/>
+  <g stroke="#f6f2e9" stroke-opacity="0.07" stroke-width="1">
+    <path d="M0 60.5H1200M0 120.5H1200M0 180.5H1200M0 240.5H1200"/>
+    <path d="M60.5 0V300M600.5 0V300M1139.5 0V300"/>
+  </g>
+
+  <rect x="60" y="52" width="6" height="196" fill="#5fb3ae"/>
+
+  <text x="96" y="106" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="21" letter-spacing="6" fill="#5fb3ae">CLAUDE CODE / PORTABLE SETUP</text>
+  <text x="94" y="182" font-family="Iowan Old Style, Palatino, Georgia, serif" font-size="76" font-weight="600" fill="#f6f2e9">claude-config</text>
+  <rect x="96" y="204" width="560" height="2" fill="url(#rule)"/>
+  <text x="96" y="242" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="20" fill="#b8b4ab">git clone &#8250; make install &#8250; same environment, every machine</text>
+
+  <g font-family="ui-monospace, SFMono-Regular, Menlo, monospace" text-anchor="end">
+    <text x="1128" y="92"  font-size="46" font-weight="600" fill="#5fb3ae">135</text>
+    <text x="1128" y="114" font-size="15" letter-spacing="3" fill="#8a867e">SKILLS</text>
+    <text x="1128" y="170" font-size="46" font-weight="600" fill="#5fb3ae">7</text>
+    <text x="1128" y="192" font-size="15" letter-spacing="3" fill="#8a867e">SUBAGENTS</text>
+    <text x="1128" y="248" font-size="46" font-weight="600" fill="#5fb3ae">9</text>
+    <text x="1128" y="270" font-size="15" letter-spacing="3" fill="#8a867e">COMMANDS</text>
+  </g>
+</svg>

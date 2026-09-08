@@ -5,7 +5,7 @@ CLAUDE_HOME ?= $(HOME)/.claude
 SHELL       := /usr/bin/env bash
 
 .DEFAULT_GOAL := help
-.PHONY: help install link sync check lint template secrets stats clean-backups
+.PHONY: help install link sync check lint catalog catalog-check template secrets stats clean-backups
 
 help: ## Show this help
 	@grep -hE '^[a-z-]+:.*?## ' $(MAKEFILE_LIST) \
@@ -20,10 +20,16 @@ link: ## Symlink skills/agents/commands/hooks into $(CLAUDE_HOME)
 sync: ## Pull $(CLAUDE_HOME) changes back into this repo
 	@./sync-from-local.sh
 
-check: lint template secrets ## Run every validation gate
+check: lint catalog-check template secrets ## Run every validation gate
 
 lint: ## Validate skill, agent, and command frontmatter
 	@python3 scripts/validate.py
+
+catalog: ## Regenerate docs/SKILLS.md from skill frontmatter
+	@python3 scripts/gen-catalog.py
+
+catalog-check: ## Fail if docs/SKILLS.md is stale
+	@python3 scripts/gen-catalog.py --check
 
 template: ## Verify settings.template.json stays placeholder-only
 	@python3 scripts/check-template.py
