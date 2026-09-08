@@ -1,75 +1,129 @@
-# claude-config
+<h1 align="center">claude-config</h1>
 
-Portable Claude Code configuration: skills, subagents, slash commands, hooks, and a sanitized
-`settings.json` template. Clone this on any machine or under any Claude account to get the same
-setup.
+<p align="center">
+  <em>Portable Claude Code environment. One clone, one command, same setup on every machine.</em>
+</p>
 
-## Contents
+<p align="center">
+  <a href="https://github.com/satishkc7/claude-config/actions/workflows/ci.yml"><img alt="ci" src="https://github.com/satishkc7/claude-config/actions/workflows/ci.yml/badge.svg"></a>
+  <img alt="skills" src="https://img.shields.io/badge/skills-135-1f6feb">
+  <img alt="agents" src="https://img.shields.io/badge/subagents-7-1f6feb">
+  <img alt="commands" src="https://img.shields.io/badge/commands-9-1f6feb">
+  <img alt="hooks" src="https://img.shields.io/badge/hooks-8-1f6feb">
+  <a href="LICENSE"><img alt="license" src="https://img.shields.io/badge/license-MIT-3fb950"></a>
+  <img alt="platform" src="https://img.shields.io/badge/platform-macOS%20%7C%20Linux-8b949e">
+</p>
 
-| Path | What it is |
-| --- | --- |
-| `skills/` | Agent Skills (one directory per skill, each with a `SKILL.md`) |
-| `agents/` | Custom subagent definitions used by the Agent tool |
-| `commands/` | Slash commands (`/build`, `/plan`, `/review`, `/ship`, `/spec`, `/test`, ...) |
-| `hooks/` | Hook scripts referenced from `settings.json` (caveman mode, statusline, model overrides) |
-| `plugins/known_marketplaces.json` | Plugin marketplaces to re-add with `/plugin` |
-| `settings.template.json` | User settings with secrets and machine paths stripped out |
-| `install.sh` | Installs everything into `~/.claude` |
-| `sync-from-local.sh` | Copies the current machine's `~/.claude` back into this repo |
+---
 
-## Install on a new machine
+`~/.claude` accumulates real engineering work: skills you wrote, subagents you tuned, slash commands
+that encode your workflow, hooks that shape every session. None of it is version controlled, and
+none of it follows you to a new laptop or a second account.
 
-```bash
-git clone https://github.com/<user>/claude-config.git ~/claude-config
-cd ~/claude-config
-./install.sh            # copy into ~/.claude
-# or
-./install.sh --link     # symlink skills/agents/commands/hooks to this repo
-./install.sh --dry-run  # preview only
+This repo is that config, extracted, validated in CI, and installable in one command.
+
+```console
+$ git clone https://github.com/satishkc7/claude-config.git ~/claude-config
+$ cd ~/claude-config && make install
+copied  skills/    -> ~/.claude/skills/
+copied  agents/    -> ~/.claude/agents/
+copied  commands/  -> ~/.claude/commands/
+copied  hooks/     -> ~/.claude/hooks/
+wrote   ~/.claude/settings.json from template (fill in env vars)
+done. restart Claude Code, then run /skills to verify.
 ```
 
-Existing directories are backed up to `~/.claude/backups/config-import-<timestamp>/` before being
-replaced. An existing `~/.claude/settings.json` is never overwritten; merge from
-`settings.template.json` by hand.
+## Layout
 
-Restart Claude Code afterwards, then run `/skills` to confirm the skills are loaded.
+```
+claude-config/
+├── skills/                      135 Agent Skills, one directory per skill
+│   └── <name>/SKILL.md          YAML frontmatter (name + description) + instructions
+├── agents/                      7 subagent definitions for the Agent tool
+├── commands/                    9 slash commands (/build /plan /review /ship /spec /test ...)
+├── hooks/                       SessionStart, UserPromptSubmit, Stop, and statusline scripts
+├── plugins/
+│   └── known_marketplaces.json  marketplaces to re-add with /plugin
+├── scripts/
+│   ├── validate.py              frontmatter linter (names, descriptions, dir/name match)
+│   └── scan-secrets.sh          credential scanner over tracked files
+├── settings.template.json       user settings, secrets and machine paths stripped
+├── install.sh                   repo  -> ~/.claude
+├── sync-from-local.sh           ~/.claude -> repo
+└── Makefile                     install | link | sync | check | lint | secrets | stats
+```
 
-### Copy vs. link
+## Install
 
-- **copy** (default) is safest: the repo and the live config are independent, and
-  `sync-from-local.sh` moves changes back when you want them shared.
-- **link** replaces the four directories with symlinks into the repo, so editing a skill here takes
-  effect immediately everywhere and `git status` always reflects reality. Note that Claude Code
-  writing into a linked directory writes into the repo.
+```bash
+make install     # copy into ~/.claude          (default, safest)
+make link        # symlink ~/.claude dirs here  (edits apply immediately)
+make check       # lint + secret scan, no writes
+./install.sh --dry-run
+```
+
+Target directory is `$CLAUDE_HOME`, defaulting to `~/.claude`.
+
+| | copy | link |
+| --- | --- | --- |
+| repo and live config | independent | same files |
+| edit a skill, see it live | after `make install` | immediately |
+| `git status` reflects reality | after `make sync` | always |
+| Claude writing into the dir | stays local | lands in the repo |
+
+Anything replaced is backed up to `~/.claude/backups/config-import-<timestamp>/` first. An existing
+`settings.json` is never overwritten.
+
+Restart Claude Code, then confirm with `/skills`, `/agents`, and `/hooks`.
 
 ## Settings
 
-`settings.template.json` keeps the hook wiring, statusline, model, and effort level, but two things
-are deliberately blanked:
+`settings.template.json` carries the hook wiring, statusline, model, and effort level. Two fields are
+blanked on purpose, and CI fails if either is ever filled in:
 
-- `env.NOTION_API_KEY` is a `${NOTION_API_KEY}` placeholder. Put the real value in your shell
-  environment, or paste it into `~/.claude/settings.json` locally (never back into this repo).
-- `permissions.additionalDirectories` is empty. Add machine-specific project paths locally.
+| Field | Why it is blank | What to do |
+| --- | --- | --- |
+| `env.NOTION_API_KEY` | real key, must not be committed | export it in your shell, or set it in `~/.claude/settings.json` |
+| `permissions.additionalDirectories` | machine-specific paths | add your own project paths locally |
 
-Some hook commands reference `~/.claude-mem/`. Install
-[claude-mem](https://github.com/thedotmack/claude-mem) or delete those hook entries if you do not
-use it.
+Two hook entries call `~/.claude-mem/capture.sh` and `~/.claude-mem/summarize.sh`. Install
+[claude-mem](https://github.com/thedotmack/claude-mem) or drop those entries from `settings.json`.
 
-## What is intentionally not in this repo
+## Excluded by design
 
-`settings.local.json` (contains real access tokens inside permission rules), `projects/` (per-project
-state and the auto-memory files), `history.jsonl`, session data, telemetry, caches, and backups. All
-of these are covered by `.gitignore`.
+`.gitignore` blocks the parts of `~/.claude` that are either secret or worthless on another machine:
 
-Auto-memory lives in `~/.claude/projects/<slug>/memory/` and holds personal notes and credentials, so
-it stays out of a shareable repo. If you want it synced too, use a separate private repository.
+- `settings.local.json` - permission rules with live access tokens embedded in them
+- `projects/` - per-project state, including the auto-memory files and their credentials
+- `history.jsonl`, `sessions/`, `session-env/`, `shell-snapshots/` - session state
+- `telemetry/`, `paste-cache/`, `file-history/`, `cache/`, `backups/` - transient data
+
+Sync auto-memory through a separate **private** repo if you want it on more than one machine.
 
 ## Updating
 
 ```bash
-cd ~/claude-config
-./sync-from-local.sh    # bring local skill edits back into the repo, runs a secret scan
-git add -A && git commit -m "update skills" && git push
+make sync                                  # ~/.claude -> repo, then lint + secret scan
+git add -A && git commit -m "..." && git push
 ```
 
-On the other machines: `git pull && ./install.sh` (or nothing at all, if you installed with `--link`).
+On every other machine: `git pull && make install`. Nothing to do if you installed with `make link`.
+
+## CI
+
+`.github/workflows/ci.yml` runs on push and pull request:
+
+1. `scripts/validate.py` - every skill has a `SKILL.md` whose frontmatter `name` matches its
+   directory and carries a description; same check for agents and commands
+2. `scripts/scan-secrets.sh` - 9 credential patterns across all tracked files
+3. `shellcheck -S warning` on the installer, the sync script, and the shell hooks
+4. `settings.template.json` parses as JSON and still has its placeholders
+5. the installer runs against a throwaway `CLAUDE_HOME` and the result is asserted
+
+## Requirements
+
+`bash` 3.2+, `git`, `rsync`, `python3` 3.9+. No other dependencies.
+
+## License
+
+MIT. See [LICENSE](LICENSE). Third-party skills keep whatever license their author assigned.

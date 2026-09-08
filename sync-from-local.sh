@@ -11,16 +11,19 @@ for d in skills agents commands hooks; do
   echo "synced $d"
 done
 
-[ -f "$SRC/plugins/known_marketplaces.json" ] && \
+if [ -f "$SRC/plugins/known_marketplaces.json" ]; then
   cp "$SRC/plugins/known_marketplaces.json" "$REPO/plugins/known_marketplaces.json"
+  echo "synced plugins/known_marketplaces.json"
+fi
 
 echo
 echo "Review before committing - settings.json is intentionally NOT synced:"
 git -C "$REPO" status --short | head -40
+
 echo
 echo "Secret scan:"
-if grep -rIlE 'sk-ant-[A-Za-z0-9]{20}|ghp_[A-Za-z0-9]{30}|github_pat_[A-Za-z0-9_]{30}|AKIA[A-Z0-9]{16}|ntn_[A-Za-z0-9]{30}|xox[bap]-[0-9]{8}' "$REPO/skills" "$REPO/agents" "$REPO/commands" "$REPO/hooks" 2>/dev/null; then
-  echo "!! secrets found above - remove before committing"
-else
-  echo "clean"
-fi
+bash "$REPO/scripts/scan-secrets.sh"
+
+echo
+echo "Frontmatter:"
+python3 "$REPO/scripts/validate.py"

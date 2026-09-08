@@ -22,7 +22,14 @@ DIRS=(skills agents commands hooks)
 STAMP="$(date +%Y%m%d-%H%M%S)"
 BACKUP="$DEST/backups/config-import-$STAMP"
 
-run() { if [ "$DRY" = 1 ]; then echo "DRY: $*"; else eval "$*"; fi; }
+# Echo instead of executing when --dry-run is set.
+run() {
+  if [ "$DRY" = 1 ]; then
+    echo "DRY: $*"
+  else
+    "$@"
+  fi
+}
 
 mkdir -p "$DEST"
 
@@ -32,18 +39,19 @@ for d in "${DIRS[@]}"; do
   [ -d "$src" ] || continue
 
   if [ -e "$dst" ] || [ -L "$dst" ]; then
-    run "mkdir -p '$BACKUP'"
-    run "cp -R '$dst' '$BACKUP/$d' 2>/dev/null || true"
+    run mkdir -p "$BACKUP"
+    [ "$DRY" = 1 ] && echo "DRY: cp -R $dst $BACKUP/$d"
+    cp -R "$dst" "$BACKUP/$d" 2>/dev/null || true
   fi
 
   if [ "$MODE" = "link" ]; then
-    run "rm -rf '$dst'"
-    run "ln -s '$src' '$dst'"
-    echo "linked  $dst -> $src"
+    run rm -rf "$dst"
+    run ln -s "$src" "$dst"
+    [ "$DRY" = 1 ] || echo "linked  $dst -> $src"
   else
-    run "mkdir -p '$dst'"
-    run "rsync -a --exclude .DS_Store '$src/' '$dst/'"
-    echo "copied  $src/ -> $dst/"
+    run mkdir -p "$dst"
+    run rsync -a --exclude .DS_Store "$src/" "$dst/"
+    [ "$DRY" = 1 ] || echo "copied  $src/ -> $dst/"
   fi
 done
 
@@ -54,19 +62,21 @@ fi
 
 # plugin marketplaces (additive, never overwrite)
 if [ -f "$REPO/plugins/known_marketplaces.json" ] && [ ! -f "$DEST/plugins/known_marketplaces.json" ]; then
-  run "mkdir -p '$DEST/plugins'"
-  run "cp '$REPO/plugins/known_marketplaces.json' '$DEST/plugins/known_marketplaces.json'"
+  run mkdir -p "$DEST/plugins"
+  run cp "$REPO/plugins/known_marketplaces.json" "$DEST/plugins/known_marketplaces.json"
   echo "installed plugin marketplace list"
 fi
 
 # settings: never clobber an existing one
 if [ ! -f "$DEST/settings.json" ]; then
-  run "cp '$REPO/settings.template.json' '$DEST/settings.json'"
+  run cp "$REPO/settings.template.json" "$DEST/settings.json"
   echo "wrote   $DEST/settings.json from template (fill in env vars)"
 else
   echo "kept    existing $DEST/settings.json  (merge from $REPO/settings.template.json by hand)"
 fi
 
 echo
-[ -d "$BACKUP" ] && echo "backup of replaced dirs: $BACKUP"
+if [ -d "$BACKUP" ]; then
+  echo "backup of replaced dirs: $BACKUP"
+fi
 echo "done. restart Claude Code, then run /skills to verify."
