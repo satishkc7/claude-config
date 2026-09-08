@@ -1,0 +1,23 @@
+.DS_Store
+node_modules/
+*.log
+
+# Never commit machine-local or secret-bearing Claude state
+settings.local.json
+settings.json
+history.jsonl
+projects/
+sessions/
+session-env/
+telemetry/
+paste-cache/
+file-history/
+shell-snapshots/
+backups/
+.skill-backups/
+cache/
+stats-cache.json
+policy-limits.json
+remote-settings.json
+.caveman-sessions/
+.env
