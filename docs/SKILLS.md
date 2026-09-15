@@ -1,8 +1,8 @@
 # Skill catalog
 
-`135` skills, generated from `skills/*/SKILL.md` by [`scripts/gen-catalog.py`](../scripts/gen-catalog.py). Do not edit by hand.
+`144` skills, generated from `skills/*/SKILL.md` by [`scripts/gen-catalog.py`](../scripts/gen-catalog.py). Do not edit by hand.
 
-**A**&nbsp;4 · **B**&nbsp;6 · **C**&nbsp;27 · **D**&nbsp;11 · **E**&nbsp;2 · **F**&nbsp;5 · **G**&nbsp;3 · **H**&nbsp;4 · **I**&nbsp;13 · **L**&nbsp;4 · **M**&nbsp;5 · **O**&nbsp;1 · **P**&nbsp;5 · **R**&nbsp;7 · **S**&nbsp;15 · **T**&nbsp;10 · **U**&nbsp;5 · **V**&nbsp;2 · **W**&nbsp;5 · **Y**&nbsp;1
+**A**&nbsp;4 · **B**&nbsp;6 · **C**&nbsp;31 · **D**&nbsp;11 · **E**&nbsp;2 · **F**&nbsp;5 · **G**&nbsp;3 · **H**&nbsp;4 · **I**&nbsp;13 · **L**&nbsp;4 · **M**&nbsp;5 · **O**&nbsp;1 · **P**&nbsp;7 · **R**&nbsp;7 · **S**&nbsp;17 · **T**&nbsp;10 · **U**&nbsp;5 · **V**&nbsp;3 · **W**&nbsp;5 · **Y**&nbsp;1
 
 | Skill | What it does |
 | :--- | :--- |
@@ -36,13 +36,17 @@
 | [`code-review-and-quality`](../skills/code-review-and-quality/SKILL.md) | Conducts multi-axis code review. Use before merging any change. Use when reviewing code written by yourself, another agent, or a human. Use… |
 | [`code-reviewer`](../skills/code-reviewer/SKILL.md) | Use this skill when reviewing any code — general PRs or AI/LLM-specific pipelines. Triggers include: "review this code", "check my PR", "fi… |
 | [`code-simplification`](../skills/code-simplification/SKILL.md) | Simplifies code for clarity. Use when refactoring code for clarity without changing behavior. Use when code works but is harder to read, ma… |
+| [`codebase-memory`](../skills/codebase-memory/SKILL.md) | Use the codebase knowledge graph for structural code queries. Triggers on: explore the codebase, understand the architecture, what function… |
+| [`cold-email`](../skills/cold-email/SKILL.md) | Write B2B cold emails and follow-up sequences that get replies. Use when the user wants to write cold outreach emails, prospecting emails… |
 | [`competitive-ads-extractor`](../skills/competitive-ads-extractor/SKILL.md) | Extracts and analyzes competitors' ads from ad libraries (Facebook, LinkedIn, etc.) to understand what messaging, problems, and creative ap… |
 | [`compress`](../skills/compress/SKILL.md) | Compress a memory file such as CLAUDE.md or a todo list into caveman format to save input tokens, keeping a readable backup. Trigger: /cave… |
 | [`connect`](../skills/connect/SKILL.md) | Connect Claude to any app. Send emails, create issues, post messages, update databases - take real actions across Gmail, Slack, GitHub, Not… |
 | [`connect-apps`](../skills/connect-apps/SKILL.md) | Connect Claude to external apps like Gmail, Slack, GitHub. Use this skill when the user wants to send emails, create issues, post messages… |
 | [`constraint-driven-development`](../skills/constraint-driven-development/SKILL.md) | Establishes a project's quality bar as a written contract and stops agents quietly lowering it. Interviews the user on which dimensions mat… |
 | [`content-research-writer`](../skills/content-research-writer/SKILL.md) | Assists in writing high-quality content by conducting research, adding citations, improving hooks, iterating on outlines, and providing rea… |
+| [`content-strategy`](../skills/content-strategy/SKILL.md) | When the user wants to plan a content strategy, decide what content to create, or figure out what topics to cover. Also use when the user m… |
 | [`context-engineering`](../skills/context-engineering/SKILL.md) | Optimizes agent context setup. Use when starting a new session, when agent output quality degrades, when switching between tasks, or when y… |
+| [`copywriting`](../skills/copywriting/SKILL.md) | When the user wants to write, rewrite, or improve marketing copy for any page — including homepage, landing pages, pricing pages, feature p… |
 | [`debugging-and-error-recovery`](../skills/debugging-and-error-recovery/SKILL.md) | Guides systematic root-cause debugging. Use when tests fail, builds break, behavior doesn't match expectations, or you encounter any unexpe… |
 | [`deprecation-and-migration`](../skills/deprecation-and-migration/SKILL.md) | Manages deprecation and migration. Use when removing old systems, APIs, or features. Use when migrating users from one implementation to an… |
 | [`design-suite`](../skills/design-suite/SKILL.md) | Comprehensive design skill: brand identity, design tokens, UI styling, logo generation (55 styles, Gemini, Atlas Cloud, or MuAPI AI), corpo… |
@@ -94,7 +98,9 @@
 | [`performance-optimization`](../skills/performance-optimization/SKILL.md) | Optimizes application performance across frontend, backend, queries, and databases. Use when performance requirements exist, when you suspe… |
 | [`planning-and-task-breakdown`](../skills/planning-and-task-breakdown/SKILL.md) | Breaks work into ordered tasks. Use when you have a spec or clear requirements and need to break work into implementable tasks. Use when a… |
 | [`pre-deployment-checklist`](../skills/pre-deployment-checklist/SKILL.md) | Use this skill when the user asks to "run pre-deployment checklist", "check before production", "pre-deploy review", "is this ready for pro… |
+| [`pricing`](../skills/pricing/SKILL.md) | When the user wants help with pricing decisions, packaging, or monetization strategy. Also use when the user mentions 'pricing,' 'pricing t… |
 | [`prompt-engineer`](../skills/prompt-engineer/SKILL.md) | Use this skill when crafting, iterating, or evaluating prompts for LLMs. Triggers include: writing a system prompt, improving an existing p… |
+| [`prospecting`](../skills/prospecting/SKILL.md) | When the user wants to find, qualify, and build a list of prospects to reach out to — across B2B SaaS, general B2B, or local small business… |
 | [`prototype`](../skills/prototype/SKILL.md) | Build a throwaway prototype to answer a design question. Use when the user wants to sanity-check whether a state model or logic feels right… |
 | [`raffle-winner-picker`](../skills/raffle-winner-picker/SKILL.md) | Picks random winners from lists, spreadsheets, or Google Sheets for giveaways, raffles, and contests. Ensures fair, unbiased selection with… |
 | [`rag-builder`](../skills/rag-builder/SKILL.md) | Use this skill when building, designing, or debugging Retrieval-Augmented Generation (RAG) pipelines. Triggers include: "build a RAG system… |
@@ -104,6 +110,7 @@
 | [`requesting-code-review`](../skills/requesting-code-review/SKILL.md) | Use when completing tasks, implementing major features, or before merging to verify work meets requirements |
 | [`research`](../skills/research/SKILL.md) | Investigate a question against high-trust primary sources and capture the findings as a Markdown file in the repo. Use when the user wants… |
 | [`safe-refactor`](../skills/safe-refactor/SKILL.md) | Restructure code while preserving behavior. Use for extraction, consolidation, ownership moves, or cleanup where verification must bracket… |
+| [`sales-enablement`](../skills/sales-enablement/SKILL.md) | When the user wants to create sales collateral, pitch decks, one-pagers, objection handling docs, or demo scripts. Also use when the user m… |
 | [`security-and-hardening`](../skills/security-and-hardening/SKILL.md) | Hardens code against vulnerabilities. Use when handling user input, authentication, data storage, or external integrations. Use when buildi… |
 | [`setup-matt-pocock-skills`](../skills/setup-matt-pocock-skills/SKILL.md) | Configure this repo for the engineering skills: set up its issue tracker, triage label vocabulary, and domain doc layout. Run once before f… |
 | [`shipping-and-launch`](../skills/shipping-and-launch/SKILL.md) | Prepares production launches. Use when preparing to deploy to production. Use when you need a pre-launch checklist, when setting up monitor… |
@@ -111,6 +118,7 @@
 | [`skill-share`](../skills/skill-share/SKILL.md) | A skill that creates new Claude skills and automatically shares them on Slack using Rube for seamless team collaboration and skill discover… |
 | [`slack-gif-creator`](../skills/slack-gif-creator/SKILL.md) | Toolkit for creating animated GIFs optimized for Slack, with validators for size constraints and composable animation primitives. This skil… |
 | [`slides`](../skills/slides/SKILL.md) | Create strategic HTML presentations with Chart.js, design tokens, responsive layouts, copywriting formulas, and contextual slide strategies. |
+| [`social`](../skills/social/SKILL.md) | When the user wants help creating, scheduling, or optimizing social media content for LinkedIn, Twitter/X, Instagram, TikTok, Facebook, or… |
 | [`source-driven-development`](../skills/source-driven-development/SKILL.md) | Grounds every implementation decision in official documentation. Use when you want authoritative, source-cited code free from outdated patt… |
 | [`spec-driven-development`](../skills/spec-driven-development/SKILL.md) | Creates specs before coding. Use when starting a new project, feature, or significant change and no specification exists yet. Use when requ… |
 | [`subagent-driven-development`](../skills/subagent-driven-development/SKILL.md) | Use when executing implementation plans with independent tasks in the current session |
@@ -135,6 +143,7 @@
 | [`using-superpowers`](../skills/using-superpowers/SKILL.md) | Use when starting any conversation - establishes how to find and use skills, requiring skill invocation before ANY response including clari… |
 | [`verification-before-completion`](../skills/verification-before-completion/SKILL.md) | Use when about to claim work is complete, fixed, or passing, before committing or creating PRs - requires running verification commands and… |
 | [`verify-and-stop`](../skills/verify-and-stop/SKILL.md) | Prove existing work meets acceptance conditions without expanding scope. Use for validation-only tasks, completion checks, focused gate run… |
+| [`video`](../skills/video/SKILL.md) | When the user wants to create, generate, or produce video content using AI tools or programmatic frameworks. Also use when the user mention… |
 | [`wayfinder`](../skills/wayfinder/SKILL.md) | Plan a huge chunk of work (more than one agent session can hold) as a shared map of decision tickets on your issue tracker, and resolve the… |
 | [`webapp-testing`](../skills/webapp-testing/SKILL.md) | Toolkit for interacting with and testing local web applications using Playwright. Supports verifying frontend functionality, debugging UI b… |
 | [`wizard`](../skills/wizard/SKILL.md) | Generate an interactive bash wizard that walks a human through steps only they can perform. Use when provisioning infrastructure, setting u… |
